@@ -21,6 +21,11 @@ AI Career Coach is a full-stack resume and job-description analyzer. Users can u
 - Modern animated responsive frontend UI
 - Downloadable PDF analysis reports
 
+## Live Demo
+
+Frontend: https://ai-career-coach-client.netlify.app/  
+Backend Health Check: https://ai-career-coach-api-jy7q.onrender.com/api/health
+
 ## Tech Stack
 
 ### Frontend
