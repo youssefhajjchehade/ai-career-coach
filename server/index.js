@@ -11,21 +11,34 @@ const app = express();
 
 connectDB();
 
+const normalizeOrigin = (url) => {
+  return url?.trim().replace(/\/$/, "");
+};
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  ...(process.env.CLIENT_URLS
-    ? process.env.CLIENT_URLS.split(",").map((url) => url.trim())
-    : []),
-].filter(Boolean);
+  "https://ai-career-coach-client.netlify.app",
+  process.env.CLIENT_URL,
+  ...(process.env.CLIENT_URLS ? process.env.CLIENT_URLS.split(",") : []),
+]
+  .filter(Boolean)
+  .map(normalizeOrigin);
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      const normalizedOrigin = normalizeOrigin(origin);
+
+      console.log("Incoming request origin:", origin);
+      console.log("Allowed origins:", allowedOrigins);
+
+      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      console.log("Blocked by CORS:", origin);
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
   })
