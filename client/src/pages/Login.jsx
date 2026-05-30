@@ -80,7 +80,7 @@ function Login() {
           <input
             type="email"
             name="email"
-            placeholder="youssef@example.com"
+            placeholder="name@example.com"
             value={formData.email}
             onChange={handleChange}
             required
