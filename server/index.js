@@ -14,9 +14,10 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  process.env.CLIENT_URL,
+  ...(process.env.CLIENT_URLS
+    ? process.env.CLIENT_URLS.split(",").map((url) => url.trim())
+    : []),
 ].filter(Boolean);
-
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -31,7 +32,13 @@ app.use(
 );
 
 app.use(express.json({ limit: "1mb" }));
-
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "AI Career Coach API is running",
+    health: "/api/health",
+  });
+});
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
